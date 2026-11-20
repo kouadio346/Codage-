@@ -1,0 +1,6 @@
+{
+  "name": "ProtoSnap",
+  "description": "Studio de prototypage rapide qui transcrit vos images et maquettes en code HTML, CSS et JS interactif avec suggestions IA et prévisualisation en temps réel.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

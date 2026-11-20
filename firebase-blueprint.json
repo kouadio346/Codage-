@@ -1,0 +1,78 @@
+{
+  "entities": {
+    "PrototypeProject": {
+      "title": "PrototypeProject",
+      "description": "A user-owned HTML, CSS, and JavaScript web prototype transcribed from an image or interactive mockup.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Firebase Auth UID of the prototype owner."
+        },
+        "title": {
+          "type": "string",
+          "description": "Human-readable title of the prototype (1-100 characters)."
+        },
+        "sourceLabel": {
+          "type": "string",
+          "description": "Label describing the source image or mockup."
+        },
+        "htmlCode": {
+          "type": "string",
+          "description": "Generated or edited HTML markup."
+        },
+        "cssCode": {
+          "type": "string",
+          "description": "Generated or edited CSS stylesheet."
+        },
+        "jsCode": {
+          "type": "string",
+          "description": "Generated or edited interactive JavaScript code."
+        },
+        "aiNotes": {
+          "type": "string",
+          "description": "Summary of AI front-end optimization and interactive JS recommendations."
+        },
+        "interactiveFeatures": {
+          "type": "array",
+          "description": "Up to 15 short labels describing interactive JS features implemented."
+        },
+        "favorite": {
+          "type": "boolean",
+          "description": "Whether the user marked this prototype as a favorite."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp set via FieldValue.serverTimestamp() at creation."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp set via FieldValue.serverTimestamp() on creation and updates."
+        }
+      },
+      "required": [
+        "userId",
+        "title",
+        "sourceLabel",
+        "htmlCode",
+        "cssCode",
+        "jsCode",
+        "aiNotes",
+        "interactiveFeatures",
+        "favorite",
+        "createdAt",
+        "updatedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/users/{userId}/prototypes/{prototypeId}": {
+      "schema": {
+        "$ref": "#/entities/PrototypeProject"
+      },
+      "description": "User-scoped subcollection storing saved HTML/CSS/JS prototypes."
+    }
+  }
+}

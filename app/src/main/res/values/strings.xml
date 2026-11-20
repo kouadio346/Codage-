@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">ProtoSnap</string>
+    <string name="app_tagline">Studio Image vers HTML · CSS · JS</string>
+    <string name="auth_title">Bienvenue sur ProtoSnap</string>
+    <string name="auth_subtitle">Transcrivez vos maquettes et images interactives en code HTML, CSS et JS prêt pour la production, avec suggestions IA et aperçu en temps réel.</string>
+    <string name="auth_sign_in_google">Continuer avec Google</string>
+    <string name="nav_studio">Image &amp; IA</string>
+    <string name="nav_code">Code</string>
+    <string name="nav_preview">Aperçu Live</string>
+    <string name="nav_projects">Projets</string>
+    <string name="action_pick_image">Importer une image</string>
+    <string name="action_load_sample">Maquette démo</string>
+    <string name="action_transcribe">Transcrire en HTML/CSS/JS</string>
+    <string name="action_optimize_frontend">Optimiser l\'intégration</string>
+    <string name="action_generate_js">Générer JS interactif</string>
+    <string name="action_save_project">Sauvegarder</string>
+    <string name="action_copy_bundle">Copier tout</string>
+    <string name="action_copy_code">Copier le code</string>
+    <string name="action_copied">Copié !</string>
+    <string name="action_share_bundle">Partager</string>
+    <string name="action_sign_out">Déconnexion</string>
+    <string name="hotspot_hint">Touchez l\'image pour placer des zones interactives (boutons, modales, infobulles).</string>
+</resources>

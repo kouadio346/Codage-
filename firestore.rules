@@ -1,0 +1,75 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidPrototype(data, userId) {
+      return data.userId is string && data.userId == userId &&
+        data.title is string && data.title.size() >= 1 && data.title.size() <= 100 &&
+        data.sourceLabel is string && data.sourceLabel.size() <= 120 &&
+        data.htmlCode is string && data.htmlCode.size() <= 120000 &&
+        data.cssCode is string && data.cssCode.size() <= 120000 &&
+        data.jsCode is string && data.jsCode.size() <= 120000 &&
+        data.aiNotes is string && data.aiNotes.size() <= 20000 &&
+        data.interactiveFeatures is list && data.interactiveFeatures.size() <= 15 &&
+        (data.interactiveFeatures.size() == 0 || (data.interactiveFeatures[0] is string && data.interactiveFeatures[0].size() <= 120)) &&
+        data.favorite is bool &&
+        data.createdAt is timestamp && data.createdAt <= request.time &&
+        data.updatedAt is timestamp && data.updatedAt <= request.time;
+    }
+
+    match /users/{userId}/prototypes/{prototypeId} {
+      allow get: if isOwner(userId) && isValidId(prototypeId);
+      allow list: if isOwner(userId);
+
+      allow create: if isOwner(userId) &&
+        isValidId(prototypeId) &&
+        incoming().keys().hasAll([
+          'userId', 'title', 'sourceLabel', 'htmlCode', 'cssCode',
+          'jsCode', 'aiNotes', 'interactiveFeatures', 'favorite',
+          'createdAt', 'updatedAt'
+        ]) &&
+        incoming().keys().hasOnly([
+          'userId', 'title', 'sourceLabel', 'htmlCode', 'cssCode',
+          'jsCode', 'aiNotes', 'interactiveFeatures', 'favorite',
+          'createdAt', 'updatedAt'
+        ]) &&
+        isValidPrototype(incoming(), userId);
+
+      allow update: if isOwner(userId) &&
+        isValidId(prototypeId) &&
+        isValidPrototype(incoming(), userId) &&
+        incoming().userId == existing().userId &&
+        incoming().createdAt == existing().createdAt &&
+        incoming().diff(existing()).affectedKeys().hasOnly([
+          'title', 'sourceLabel', 'htmlCode', 'cssCode',
+          'jsCode', 'aiNotes', 'interactiveFeatures', 'favorite', 'updatedAt'
+        ]);
+
+      allow delete: if isOwner(userId) && isValidId(prototypeId);
+    }
+  }
+}
